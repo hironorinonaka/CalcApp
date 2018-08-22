@@ -52,21 +52,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(text1.length() == 0 || text2.length() == 0){
+
+
+        //未入力処理をする
+        if (text1.length() == 0 || text2.length() == 0) {
             //未入力処理
 
-
-
-//            Log.d("UI-PARTS","ここが動いていますa");
-//            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//            Log.d("UI-PARTS","ここが動いていますb");
-
-
-
-
-
-            final Snackbar snackbar = Snackbar.make(v, "文字を入力してください", Snackbar.LENGTH_SHORT);
+            final Snackbar snackbar = Snackbar.make(v, "文字を入力してください", Snackbar.LENGTH_INDEFINITE);
             snackbar.getView().setBackgroundColor(Color.RED);
             snackbar.setActionTextColor(Color.WHITE);
             snackbar.setAction("確認", new View.OnClickListener() {
@@ -78,34 +70,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             snackbar.show();
         }
 
-        
-//        String t1 = text1.getText().toString();
-//        double value1 = Double.parseDouble(t1);
-//
-//
-//        String t2 = text2.getText().toString();
-//        double value2 = Double.parseDouble(t2);
-//
-//        if (v.getId() == R.id.button1) {
-//            this.answer = value1 + value2;
-//        }
-//        else  if (v.getId() == R.id.button2) {
-//            this.answer = value1 - value2;
-//        }
-//
-//        else  if (v.getId() == R.id.button3) {
-//            this.answer = value1 * value2;
-//        }
-//
-//        else  if (v.getId() == R.id.button4) {
-//            this.answer = value1 / value2;
-//
-//        }
+        //割り算の例外処理
+        else if (Double.parseDouble(text2.getText().toString())==0 && v.getId() == R.id.button4) {
 
 
-        Intent intent = new Intent(this, SecondActivity.class);
-        intent.putExtra("VALUE", answer);
-        startActivity(intent);
+            
+            final Snackbar snackbar = Snackbar.make(v, "0で割ることはできません", Snackbar.LENGTH_INDEFINITE);
+            snackbar.getView().setBackgroundColor(Color.RED);
+            snackbar.setActionTextColor(Color.WHITE);
+            snackbar.setAction("確認", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // setActionしたテキストがタップされたらここが実行
+                }
+            });
+            snackbar.show();
+
+        } else {
+
+            String t1 = text1.getText().toString();
+            double value1 = Double.parseDouble(t1);
+
+
+            String t2 = text2.getText().toString();
+            double value2 = Double.parseDouble(t2);
+
+            if (v.getId() == R.id.button1) {
+                this.answer = value1 + value2;
+            } else if (v.getId() == R.id.button2) {
+                this.answer = value1 - value2;
+            } else if (v.getId() == R.id.button3) {
+                this.answer = value1 * value2;
+            } else if (v.getId() == R.id.button4) {
+                this.answer = value1 / value2;
+
+            }
+
+
+            Intent intent = new Intent(this, SecondActivity.class);
+            intent.putExtra("VALUE", answer);
+            startActivity(intent);
+
+        }
     }
 
 
